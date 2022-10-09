@@ -3,6 +3,8 @@ from discord.ext import commands
 
 #Delete after production: python3 -m pip install <library>
 #TODO: Make a help command and make it well formatted
+#TODO: Make a backup system for SQL database
+#TODO: Make a README discussing SQL format, commands, etc.
 
 
 #Add more cogs as needed
@@ -34,7 +36,7 @@ async def on_ready():
 	print("Ready")
 	await load_extensions()
 
-os.environ['TOKEN'] = 'MTAyMDgzMjY4OTYxMzQ1OTQ4Ng.GEEln-.6otz_Ado0-mHB5yETLCVK-aY2pUlA0vlH4U3So'
+os.environ['TOKEN'] = '' #Enter Your Own Token Here
 client.run(os.getenv('TOKEN'))
 
 
