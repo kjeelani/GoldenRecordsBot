@@ -34,7 +34,7 @@ def reset_testing():
     c.execute('DELETE FROM submissions')
     dir = "./audio"
     for f in os.listdir(dir):
-        new_name = os.rename(os.path.join(dir,f),"_")
+        new_name = os.rename(os.path.join(dir,f),os.path.join(dir,'_'))
         os.remove(os.path.join(dir,new_name))
 
 # reset_testing() #remove this ONLY to reset database and clear audio files
