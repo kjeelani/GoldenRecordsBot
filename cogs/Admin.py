@@ -58,13 +58,14 @@ class Admin(commands.Cog):
 
 	#Make a way to back-up the JSON files
 	@commands.command(name='create_comp', aliases=["crc"])
-	async def create_comp(self, ctx, id: str, name: str, description: str):
+	async def create_comp(self, ctx, id: str, name: str, description: str, channel: discord.TextChannel=None):
 		'''
 		Sets up a new competition with parameters as follows:
 
 		<id>: How people should refer to this competition when submitting (surround in " ") (ONLY ONE WORD)
 		<name>: Competition Name/Theme (surround in " ") (CAN BE MULTIPLE WORDS)
 		<description>: Give a short description of what is expected of the submission (surround in " ")
+		OPTIONAL <channel>: If a channel is passed in, the competition details will be immediately posted in that channel
 		'''
 		if " " in id:
 			ctx.send("Please enter a one-word competition ID with no spaces.")
@@ -76,8 +77,9 @@ class Admin(commands.Cog):
 		except Exception as e:
 			print(e)
 			await ctx.send("An error has occured. Perhaps this competition has already been created? Check your parameters once again if not.")
- 
- 
+
+		if channel != None:
+			await self.post_comp(ctx, id, channel)
  
 	@commands.command(name='post_comp', aliases=['pc'])
 	async def post_comp(self, ctx, comp_id: str, channel: discord.TextChannel):

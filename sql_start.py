@@ -35,9 +35,9 @@ def reset_testing():
     dir = "./audio"
     for f in os.listdir(dir):
         new_name = os.rename(os.path.join(dir,f),os.path.join(dir,'_'))
-        os.remove(os.path.join(dir,new_name))
+        os.remove(os.path.join(dir,os.path.join(dir,'_')))
 
-# reset_testing() #remove this ONLY to reset database and clear audio files
+#reset_testing() #remove this ONLY to reset database and clear audio files
 print_database('competitions')
 print_database('submissions')
 

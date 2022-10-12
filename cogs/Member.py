@@ -54,6 +54,11 @@ class Member(commands.Cog):
                 await ctx.channel.send("This competition is closed. Please message the moderators to open the competition.")
                 return
             
+            #Check if user has a submission, and if they do, unsubmit their previous one
+            has_submitted = str(ctx.author) in self.db_util('select',f'SELECT username FROM competitions where id = "{comp_id.lower()}"')[0]
+            if has_submitted:
+                await self.unsubmit(ctx, comp_id)
+            
             #Creates Audio Filepath and Save Audio
             user_folder = f'./audio/{comp_id.lower()}/{str(ctx.author)}'
             if not os.path.exists(user_folder):
@@ -90,7 +95,7 @@ class Member(commands.Cog):
                 os.remove(os.path.join(dir, f))
             
             comp_name = self.db_util('select', f'SELECT theme FROM competitions WHERE id = "{comp_id.lower()}"')[0][0]
-            await ctx.send(f'You have unsubmitted from {comp_name}.')
+            await ctx.send(f'You have unsubmitted your prior submission from {comp_name}.')
         except Exception as e:
             print(e)
             await ctx.send("An error has occured. You either haven't submitted yet to that competition or entered an invalid parameter")
