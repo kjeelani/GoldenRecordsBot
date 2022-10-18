@@ -36,7 +36,7 @@ async def on_ready():
 	print("Ready")
 	await load_extensions()
 
-os.environ['TOKEN'] = 'MTAyMDgzMjY4OTYxMzQ1OTQ4Ng.Gkpjsj.jKmSUl-dbSP4HLiMonsJILz4YAvj4kHklQT6tQ' #Enter Your Own Token Here
+os.environ['TOKEN'] = 'MTAyMDgzMjY4OTYxMzQ1OTQ4Ng.GIcJBj.YzE5qqAyD3W3-mPCpSfs4bunusOCtjHLjWYvhg' #Enter Your Own Token Here
 client.run(os.getenv('TOKEN'))
 
 

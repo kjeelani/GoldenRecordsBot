@@ -1,6 +1,7 @@
 import sqlite3 as sql
 import pandas as pd
 import os
+import shutil
 
 conn = sql.connect('submissions.sql')
 c = conn.cursor()
@@ -32,10 +33,8 @@ def print_database(table):
 def reset_testing():
     c.execute('DELETE FROM competitions')
     c.execute('DELETE FROM submissions')
-    dir = "./audio"
-    for f in os.listdir(dir):
-        new_name = os.rename(os.path.join(dir,f),os.path.join(dir,'_'))
-        os.remove(os.path.join(dir,os.path.join(dir,'_')))
+    shutil.rmtree("./audio")
+    os.mkdir("./audio")
 
 #reset_testing() #remove this ONLY to reset database and clear audio files
 print_database('competitions')

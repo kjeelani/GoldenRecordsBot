@@ -56,16 +56,25 @@ class Admin(commands.Cog):
 		self.db_util('delete',"DELETE FROM submissions")
 
 
+	@commands.command(name="set_annoucements_channel",aliases=["sac"])
+	async def set_announcments_channel(self, ctx, channel: discord.TextChannel):
+		f = open("announcments.txt","w")
+		f.write(f"{channel.id}\n")
+		f.close()
+		await ctx.send("The announcments channel has been set.")
+
+ 
+
 	#Make a way to back-up the JSON files
 	@commands.command(name='create_comp', aliases=["crc"])
-	async def create_comp(self, ctx, id: str, name: str, description: str, channel: discord.TextChannel=None):
+	async def create_comp(self, ctx, id: str, name: str, description: str, post: str="false"):
 		'''
 		Sets up a new competition with parameters as follows:
 
 		<id>: How people should refer to this competition when submitting (surround in " ") (ONLY ONE WORD)
 		<name>: Competition Name/Theme (surround in " ") (CAN BE MULTIPLE WORDS)
 		<description>: Give a short description of what is expected of the submission (surround in " ")
-		OPTIONAL <channel>: If a channel is passed in, the competition details will be immediately posted in that channel
+		OPTIONAL <post>: If post is "true", will post the competition with the announc
 		'''
 		if " " in id:
 			ctx.send("Please enter a one-word competition ID with no spaces.")
@@ -77,9 +86,17 @@ class Admin(commands.Cog):
 		except Exception as e:
 			print(e)
 			await ctx.send("An error has occured. Perhaps this competition has already been created? Check your parameters once again if not.")
-
-		if channel != None:
-			await self.post_comp(ctx, id, channel)
+		if post.lower() == "true":
+			try:
+				f = open("announcments.txt","r")
+				cid = int(f.readline().rstrip())
+				channel = ctx.message.guild.get_channel(cid)
+				f.close()
+				await self.post_comp(ctx, id, channel)
+			except Exception as e:
+				print(e)
+				await ctx.channel.send("You have not set an announcement channel. Use .sac <channel> and then .pc <comp_id> <channel>.")
+ 
  
 	@commands.command(name='post_comp', aliases=['pc'])
 	async def post_comp(self, ctx, comp_id: str, channel: discord.TextChannel):
